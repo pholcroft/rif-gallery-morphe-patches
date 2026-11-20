@@ -1,3 +1,8 @@
+# 2.4.1 (2026-11-20)
+
+- Added **Repair broken gallery images** for RiF 5.6.22. The patch keeps usable photos when Reddit sends broken image metadata.
+- Bundled Patcheddit's Reddit API compatibility fixes with the gallery repair in one Morphe source.
+
 # [2.4.0](https://github.com/wchill/patcheddit/compare/v2.3.0...v2.4.0) (2026-11-17)
 
 

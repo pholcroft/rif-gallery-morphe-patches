@@ -1,4 +1,4 @@
-rootProject.name = "patcheddit"
+rootProject.name = "rif-gallery-morphe-patches"
 
 pluginManagement {
     repositories {

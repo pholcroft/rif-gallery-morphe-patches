@@ -8,12 +8,11 @@ val httpLibraryResources by configurations.creating
 
 patches {
     about {
-        name = "Patcheddit"
-        description = "Morphe Patches for Reddit"
-        source = "git@github.com:wchill/patcheddit.git"
-        author = "wchill"
-        contact = "w@chill.dev"
-        website = "https://github.com/wchill/patcheddit"
+        name = "RiF Gallery Patches"
+        description = "Morphe patches with additional RiF gallery repair"
+        source = "https://github.com/pholcroft/rif-gallery-morphe-patches"
+        author = "pholcroft and upstream contributors"
+        website = "https://github.com/pholcroft/rif-gallery-morphe-patches"
         license = "Additional conditions under GPL section 7 apply: attribution and project name restrictions. See LICENSE file."
     }
 }

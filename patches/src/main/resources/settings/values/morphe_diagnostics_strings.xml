@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="morphe_settings_title">Patcheddit</string>
-    <string name="morphe_settings_summary">Features added by Patcheddit</string>
-    <string name="morphe_about_title">About Patcheddit</string>
+    <string name="morphe_settings_title">RiF Gallery Patches</string>
+    <string name="morphe_settings_summary">This app uses code from Patcheddit. To learn more, visit https://reddit.com/r/patcheddit</string>
+    <string name="morphe_about_title">About RiF Gallery Patches</string>
     <string name="morphe_about_links">Links</string>
     <string name="morphe_about_github">GitHub</string>
     <string name="morphe_about_github_summary">Source code and project information</string>
