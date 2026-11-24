@@ -34,7 +34,13 @@ private val composerLayoutPatch = resourcePatch(default = false) {
             frame.setAttribute("android:paddingEnd", inset)
             val header = generateSequence(composer.firstChild) { it.nextSibling }
                 .filterIsInstance<Element>().first()
-            header.setAttribute("android:layout_marginBottom", "4dp")
+            header.setAttribute("android:layout_marginBottom", "0dp")
+            val formInset = composer.getAttribute("android:padding")
+            composer.removeAttribute("android:padding")
+            composer.setAttribute("android:paddingStart", formInset)
+            composer.setAttribute("android:paddingEnd", formInset)
+            composer.setAttribute("android:paddingTop", "2dp")
+            composer.setAttribute("android:paddingBottom", "2dp")
             frame.appendChild(composer)
             scroll.parentNode.replaceChild(frame, scroll)
             // The original plain Views are horizontal spacers. Inside a bounded form,
