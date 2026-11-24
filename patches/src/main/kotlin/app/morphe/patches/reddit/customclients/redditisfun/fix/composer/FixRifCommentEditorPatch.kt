@@ -22,37 +22,9 @@ private val composerLayoutPatch = resourcePatch(default = false) {
                 "Unexpected RiF comment composer layout"
             }
 
-            // Let the dialog constrain the form. Only the text area gives up height as it fills.
-            val frame = layout.createElement("FrameLayout")
-            for (attribute in listOf("android:layout_width", "android:layout_height")) {
-                frame.setAttribute(attribute, scroll.getAttribute(attribute))
-            }
-            // Preserve the horizontal inset. Use the form's own padding on the top and
-            // bottom so landscape leaves enough height for text above the keyboard.
-            val inset = scroll.getAttribute("android:padding")
-            frame.setAttribute("android:paddingStart", inset)
-            frame.setAttribute("android:paddingEnd", inset)
-            val header = generateSequence(composer.firstChild) { it.nextSibling }
-                .filterIsInstance<Element>().first()
-            header.setAttribute("android:layout_marginBottom", "0dp")
-            val formInset = composer.getAttribute("android:padding")
-            composer.removeAttribute("android:padding")
-            composer.setAttribute("android:paddingStart", formInset)
-            composer.setAttribute("android:paddingEnd", formInset)
-            composer.setAttribute("android:paddingTop", "2dp")
-            composer.setAttribute("android:paddingBottom", "2dp")
-            frame.appendChild(composer)
-            scroll.parentNode.replaceChild(frame, scroll)
-            // The original plain Views are horizontal spacers. Inside a bounded form,
-            // wrap_content makes a plain View take all the available height.
-            val actions = generateSequence(editor.nextSibling) { it.nextSibling }
-                .filterIsInstance<Element>().first()
-            val spacers = actions.getElementsByTagName("View")
-            for (index in 0 until spacers.length) {
-                (spacers.item(index) as Element).setAttribute("android:layout_height", "0dp")
-            }
-
-            editor.setAttribute("android:layout_weight", "1.0")
+            // Retain RiF's own spacing and view hierarchy. Only the viewport's measurement changes.
+            layout.renameNode(scroll, null, "app.morphe.extension.redditisfun.ReplyViewport")
+            editor.setAttribute("android:tag", "morphe_reply_body")
             editor.setAttribute("android:scrollbars", "vertical")
             editor.setAttribute("android:imeOptions", "flagNoFullscreen")
         }
