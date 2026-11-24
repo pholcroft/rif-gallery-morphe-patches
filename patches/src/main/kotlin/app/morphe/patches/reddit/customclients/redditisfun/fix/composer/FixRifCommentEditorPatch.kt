@@ -29,7 +29,7 @@ private val composerLayoutPatch = resourcePatch(default = false) {
             }
             frame.appendChild(composer)
             scroll.parentNode.replaceChild(frame, scroll)
-            editor.setAttribute("android:layout_weight", "1")
+            editor.setAttribute("android:layout_weight", "1.0")
             editor.setAttribute("android:scrollbars", "vertical")
             editor.setAttribute("android:imeOptions", "flagNoFullscreen")
         }
