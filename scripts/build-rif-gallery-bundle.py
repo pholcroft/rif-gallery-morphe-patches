@@ -12,14 +12,19 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE_SHA256 = "9dbc347385043e444ec6c5de75642c8cdc9510b04431998d4ee7948feb0535c1"
-VERSION = "2.4.1"
+VERSION = "2.4.2"
 PROJECT_URL = "https://github.com/pholcroft/rif-gallery-morphe-patches"
-JAVA_SOURCE = ROOT / (
+GALLERY_JAVA_SOURCE = ROOT / (
     "extensions/redditisfun/src/main/java/app/morphe/extension/redditisfun/GalleryRepair.java"
 )
-PATCH_SOURCE = ROOT / (
+COMPOSER_JAVA_SOURCE = GALLERY_JAVA_SOURCE.with_name("CommentEditorInsets.java")
+GALLERY_PATCH_SOURCE = ROOT / (
     "patches/src/main/kotlin/app/morphe/patches/reddit/customclients/redditisfun/"
     "fix/gallery/RepairBrokenRifGalleryImagesPatch.kt"
+)
+COMPOSER_PATCH_SOURCE = ROOT / (
+    "patches/src/main/kotlin/app/morphe/patches/reddit/customclients/redditisfun/"
+    "fix/composer/FixRifCommentEditorPatch.kt"
 )
 RIF_EXTENSION = "extensions/redditisfun.mpe"
 DIAGNOSTICS_STRINGS = "settings/values/morphe_diagnostics_strings.xml"
@@ -66,13 +71,13 @@ def main():
         patch_classes = work / "patch-classes"
         extension_classes.mkdir()
         patch_classes.mkdir()
-        run(javac, "--release", "8", "-classpath", android, "-d", extension_classes, JAVA_SOURCE)
+        run(javac, "--release", "8", "-classpath", android, "-d", extension_classes, GALLERY_JAVA_SOURCE, COMPOSER_JAVA_SOURCE)
         run(
             java, "-cp", args.compiler_lib / "*", "org.jetbrains.kotlin.cli.jvm.K2JVMCompiler",
             "-no-stdlib", "-no-reflect", "-jvm-target", "17",
             "-module-name", "rif_gallery_repair",
             "-classpath", os.pathsep.join((str(base), str(args.morphe_cli))),
-            f"-Xfriend-paths={base}", "-d", patch_classes, PATCH_SOURCE,
+            f"-Xfriend-paths={base}", "-d", patch_classes, GALLERY_PATCH_SOURCE, COMPOSER_PATCH_SOURCE,
         )
         extension_jar = work / "extension.jar"
         patch_jar = work / "patch.jar"
@@ -94,9 +99,9 @@ def main():
             manifest = (
                 "Manifest-Version: 1.0\r\n"
                 "Name: RiF Gallery Patches\r\n"
-                "Description: Morphe patches with additional RiF gallery repair\r\n"
+                "Description: Morphe patches with RiF gallery and comment editor repairs\r\n"
                 f"Version: {VERSION}\r\n"
-                "Timestamp: 1795132800000\r\n"
+                "Timestamp: 1795478400000\r\n"
                 f"Source: {PROJECT_URL}\r\n"
                 "Author: pholcroft and upstream contributors\r\n"
                 f"Website: {PROJECT_URL}\r\n"
