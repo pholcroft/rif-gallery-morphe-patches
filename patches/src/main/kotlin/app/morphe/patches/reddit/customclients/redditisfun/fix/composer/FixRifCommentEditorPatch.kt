@@ -24,9 +24,17 @@ private val composerLayoutPatch = resourcePatch(default = false) {
 
             // Let the dialog constrain the form. Only the text area gives up height as it fills.
             val frame = layout.createElement("FrameLayout")
-            for (attribute in listOf("android:padding", "android:layout_width", "android:layout_height")) {
+            for (attribute in listOf("android:layout_width", "android:layout_height")) {
                 frame.setAttribute(attribute, scroll.getAttribute(attribute))
             }
+            // Preserve the horizontal inset. Use the form's own padding on the top and
+            // bottom so landscape leaves enough height for text above the keyboard.
+            val inset = scroll.getAttribute("android:padding")
+            frame.setAttribute("android:paddingStart", inset)
+            frame.setAttribute("android:paddingEnd", inset)
+            val header = generateSequence(composer.firstChild) { it.nextSibling }
+                .filterIsInstance<Element>().first()
+            header.setAttribute("android:layout_marginBottom", "4dp")
             frame.appendChild(composer)
             scroll.parentNode.replaceChild(frame, scroll)
             // The original plain Views are horizontal spacers. Inside a bounded form,
