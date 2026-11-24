@@ -29,6 +29,15 @@ private val composerLayoutPatch = resourcePatch(default = false) {
             }
             frame.appendChild(composer)
             scroll.parentNode.replaceChild(frame, scroll)
+            // The original plain Views are horizontal spacers. Inside a bounded form,
+            // wrap_content makes a plain View take all the available height.
+            val actions = generateSequence(editor.nextSibling) { it.nextSibling }
+                .filterIsInstance<Element>().first()
+            val spacers = actions.getElementsByTagName("View")
+            for (index in 0 until spacers.length) {
+                (spacers.item(index) as Element).setAttribute("android:layout_height", "0dp")
+            }
+
             editor.setAttribute("android:layout_weight", "1.0")
             editor.setAttribute("android:scrollbars", "vertical")
             editor.setAttribute("android:imeOptions", "flagNoFullscreen")
