@@ -1,6 +1,6 @@
 {
   "NOTE": "Generated from Patcheddit 2.4.0 metadata and the RiF gallery and comment editor patches.",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "patches": [
     {
       "name": "Add Boost Search bottom navigation",

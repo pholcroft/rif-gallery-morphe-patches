@@ -8,7 +8,7 @@ A Morphe patch source for **rif is fun 5.6.22**. It combines Patcheddit's Reddit
 2. Select your original RiF 5.6.22 APK. In the patch picker, choose **RiF Gallery Patches** as the source and leave **Reddit API fixes**, **Repair broken gallery images**, and **Fix comment editor keyboard resizing** enabled. This source already supplies the Patcheddit patches for RiF, so leave the separate Patcheddit source unselected for this build.
 3. Patch and install using your usual Morphe Manager installation so Android can accept an in-place update with the same signing key. Open RiF and sign in to Reddit.
 
-The comment editor patch targets the free RiF 5.6.22 package. It keeps the compose actions visible while long replies scroll inside the editor. The gallery patch targets both the free and Golden Platinum packages. The free package was tested on Android 15. Reddit sign-in in RiF and the Golden Platinum build have yet to be verified.
+The comment editor patch targets the free RiF 5.6.22 package. It preserves the original reply card spacing, positions the card just above the docked keyboard, and lets long replies scroll inside the text field. In a very short window, the full card can also scroll so the controls stay reachable. The gallery patch targets both the free and Golden Platinum packages. The free package was tested on Android 15. Reddit sign-in in RiF and the Golden Platinum build have yet to be verified.
 
 ## Build
 

@@ -12,7 +12,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE_SHA256 = "9dbc347385043e444ec6c5de75642c8cdc9510b04431998d4ee7948feb0535c1"
-VERSION = "2.4.2"
+VERSION = "2.4.3"
 PROJECT_URL = "https://github.com/pholcroft/rif-gallery-morphe-patches"
 GALLERY_JAVA_SOURCE = ROOT / (
     "extensions/redditisfun/src/main/java/app/morphe/extension/redditisfun/GalleryRepair.java"
@@ -22,6 +22,7 @@ GALLERY_PATCH_SOURCE = ROOT / (
     "patches/src/main/kotlin/app/morphe/patches/reddit/customclients/redditisfun/"
     "fix/gallery/RepairBrokenRifGalleryImagesPatch.kt"
 )
+REPLY_VIEWPORT_JAVA_SOURCE = GALLERY_JAVA_SOURCE.with_name("ReplyViewport.java")
 COMPOSER_PATCH_SOURCE = ROOT / (
     "patches/src/main/kotlin/app/morphe/patches/reddit/customclients/redditisfun/"
     "fix/composer/FixRifCommentEditorPatch.kt"
@@ -71,7 +72,7 @@ def main():
         patch_classes = work / "patch-classes"
         extension_classes.mkdir()
         patch_classes.mkdir()
-        run(javac, "--release", "8", "-classpath", android, "-d", extension_classes, GALLERY_JAVA_SOURCE, COMPOSER_JAVA_SOURCE)
+        run(javac, "--release", "8", "-classpath", android, "-d", extension_classes, GALLERY_JAVA_SOURCE, COMPOSER_JAVA_SOURCE, REPLY_VIEWPORT_JAVA_SOURCE)
         run(
             java, "-cp", args.compiler_lib / "*", "org.jetbrains.kotlin.cli.jvm.K2JVMCompiler",
             "-no-stdlib", "-no-reflect", "-jvm-target", "17",
