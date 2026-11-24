@@ -11,6 +11,7 @@ public final class ReplyViewport extends ScrollView {
     static final String EDITOR_TAG = "morphe_reply_body";
 
     private int editorLimit = Integer.MAX_VALUE;
+    private int originalMinimumLines = -1;
 
     public ReplyViewport(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -23,19 +24,23 @@ public final class ReplyViewport extends ScrollView {
         EditText editor = findViewWithTag(EDITOR_TAG);
         if (form == null || editor == null) return;
 
+        if (originalMinimumLines < 0) originalMinimumLines = editor.getMinLines();
+        int minimumLines = originalMinimumLines;
         int limit = Integer.MAX_VALUE;
         if (MeasureSpec.getMode(heightSpec) != MeasureSpec.UNSPECIFIED) {
             int fixedHeight = form.getMeasuredHeight() - editor.getMeasuredHeight();
             int available = MeasureSpec.getSize(heightSpec) - getPaddingTop() - getPaddingBottom() - fixedHeight;
             // If the screen cannot fit the fixed rows and one line, the original outer
             // scrolling still lets the user reach the caret and buttons without clipping them.
-            int oneLine = editor.getLineHeight() + editor.getCompoundPaddingTop()
-                    + editor.getCompoundPaddingBottom();
-            limit = Math.max(oneLine, available);
+            int textPadding = editor.getCompoundPaddingTop() + editor.getCompoundPaddingBottom();
+            int lineHeight = editor.getLineHeight();
+            if (available < originalMinimumLines * lineHeight + textPadding) minimumLines = 1;
+            limit = Math.max(lineHeight + textPadding, available);
         }
 
-        if (limit != editorLimit) {
+        if (limit != editorLimit || minimumLines != editor.getMinLines()) {
             editorLimit = limit;
+            editor.setMinLines(minimumLines);
             editor.setMaxHeight(limit);
             editor.forceLayout();
             form.forceLayout();
